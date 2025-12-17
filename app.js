@@ -6,10 +6,12 @@ const app = express();
 const healthRouter = require('./routes/health');
 app.use('/health', healthRouter);
 
-// Statische Dateien aus dem aktuellen Verzeichnis bereitstellen
-app.use(express.static(__dirname));
+// RoadSection-Route einbinden
+const roadSectionRouter = require('./routes/roadSection');
+app.use('/', roadSectionRouter);
 
-// index.html auf / ausliefern
+// Statische Dateien und index.html erst nach den API-Routen einbinden
+app.use(express.static(__dirname));
 app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, 'index.html'));
 });
