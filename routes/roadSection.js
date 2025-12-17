@@ -8,4 +8,7 @@ router.get('/:db/road-section', roadSectionController.getRoadSections);
 // Route: /:db/road-section/:id
 router.get('/:db/road-section/:id', roadSectionController.getRoadSectionById);
 
+// Route: /:db/road-section/:id/control
+router.get('/:db/road-section/:id/control', roadSectionController.getControlsByRoadSectionId);
+
 module.exports = router;
