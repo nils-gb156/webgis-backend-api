@@ -11,7 +11,7 @@ exports.getControlsByRoadSectionId = async (req, res) => {
   }
 
   try {
-    const result = await pool.query('SELECT * FROM gm_ih_kontrolle WHERE masterid = $1 AND masterclass = 9585', [id]);
+    const result = await pool.query('SELECT * FROM gm_ih_kontrolle WHERE masterid = $1 AND masterclass = 9585 and id > 0', [id]);
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
