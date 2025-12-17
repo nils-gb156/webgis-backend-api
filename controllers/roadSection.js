@@ -1,3 +1,22 @@
+exports.getControlsByRoadSectionId = async (req, res) => {
+  const db = req.params.db;
+  const id = req.params.id;
+  let pool;
+  if (db === 'lohmar') {
+    pool = lohmar_pool;
+  } else if (db === 'roetgen') {
+    pool = roetgen_pool;
+  } else {
+    return res.status(400).json({ error: 'Unknown database' });
+  }
+
+  try {
+    const result = await pool.query('SELECT * FROM gm_ih_kontrolle WHERE masterid = $1 AND masterclass = 9585', [id]);
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 exports.getRoadSectionById = async (req, res) => {
   const db = req.params.db;
   const id = req.params.id;
