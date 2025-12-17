@@ -1,6 +1,6 @@
 const { lohmar_pool, roetgen_pool } = require('../db');
 
-exports.checkDbHealth = async (req, res) => {
+const checkDbHealth = async (req, res) => {
 	const results = {};
 	try {
 		await lohmar_pool.query('SELECT 1');
@@ -16,3 +16,5 @@ exports.checkDbHealth = async (req, res) => {
 	}
 	res.json(results);
 };
+
+module.exports = { checkDbHealth };
