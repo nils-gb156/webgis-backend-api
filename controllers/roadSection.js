@@ -1,6 +1,7 @@
-exports.getDeparturesByRoadSectionId = async (req, res) => {
+const { lohmar_pool, roetgen_pool } = require('../db');
+
+const getRoadSections = async (req, res) => {
   const db = req.params.db;
-  const id = req.params.id;
   let pool;
   if (db === 'lohmar') {
     pool = lohmar_pool;
@@ -11,34 +12,14 @@ exports.getDeparturesByRoadSectionId = async (req, res) => {
   }
 
   try {
-    const result = await pool.query('SELECT * FROM gm_str_aufbrueche WHERE strasse_id = (select strasseid from webgis.wms_strassenabschnitt where id = $1) AND id > 0', [id]);
+    const result = await pool.query('SELECT * FROM webgis.wms_strassenabschnitt');
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-exports.getControlsByRoadSectionId = async (req, res) => {
-  const db = req.params.db;
-  const id = req.params.id;
-  let pool;
-  if (db === 'lohmar') {
-    pool = lohmar_pool;
-  } else if (db === 'roetgen') {
-    pool = roetgen_pool;
-  } else {
-    return res.status(400).json({ error: 'Unknown database' });
-  }
-
-  try {
-    const result = await pool.query('SELECT * FROM gm_ih_kontrolle WHERE masterid = $1 AND masterclass = 9585 and id > 0', [id]);
-    res.json(result.rows);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.getRoadSectionById = async (req, res) => {
+const getRoadSectionById = async (req, res) => {
   const db = req.params.db;
   const id = req.params.id;
   let pool;
@@ -60,10 +41,10 @@ exports.getRoadSectionById = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-const { lohmar_pool, roetgen_pool } = require('../db');
 
-exports.getRoadSections = async (req, res) => {
+const getControlsByRoadSectionId = async (req, res) => {
   const db = req.params.db;
+  const id = req.params.id;
   let pool;
   if (db === 'lohmar') {
     pool = lohmar_pool;
@@ -74,9 +55,31 @@ exports.getRoadSections = async (req, res) => {
   }
 
   try {
-    const result = await pool.query('SELECT * FROM webgis.wms_strassenabschnitt');
+    const result = await pool.query('SELECT * FROM gm_ih_kontrolle WHERE masterid = $1 AND masterclass = 9585 and id > 0', [id]);
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
+const getDeparturesByRoadSectionId = async (req, res) => {
+  const db = req.params.db;
+  const id = req.params.id;
+  let pool;
+  if (db === 'lohmar') {
+    pool = lohmar_pool;
+  } else if (db === 'roetgen') {
+    pool = roetgen_pool;
+  } else {
+    return res.status(400).json({ error: 'Unknown database' });
+  }
+
+  try {
+    const result = await pool.query('SELECT * FROM gm_str_aufbrueche WHERE strasse_id = (select strasseid from webgis.wms_strassenabschnitt where id = $1) AND id > 0', [id]);
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+module.exports = { getRoadSections, getRoadSectionById, getControlsByRoadSectionId, getDeparturesByRoadSectionId };
