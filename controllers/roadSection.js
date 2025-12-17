@@ -1,3 +1,23 @@
+exports.getDeparturesByRoadSectionId = async (req, res) => {
+  const db = req.params.db;
+  const id = req.params.id;
+  let pool;
+  if (db === 'lohmar') {
+    pool = lohmar_pool;
+  } else if (db === 'roetgen') {
+    pool = roetgen_pool;
+  } else {
+    return res.status(400).json({ error: 'Unknown database' });
+  }
+
+  try {
+    const result = await pool.query('SELECT * FROM gm_str_aufbrueche WHERE strasse_id = (select strasseid from webgis.wms_strassenabschnitt where id = $1) AND id > 0', [id]);
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.getControlsByRoadSectionId = async (req, res) => {
   const db = req.params.db;
   const id = req.params.id;
@@ -17,6 +37,7 @@ exports.getControlsByRoadSectionId = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 exports.getRoadSectionById = async (req, res) => {
   const db = req.params.db;
   const id = req.params.id;
