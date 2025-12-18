@@ -83,7 +83,7 @@ const getControlsByRoadSectionId = async (req, res) => {
   }
 };
 
-const getDeparturesByRoadSectionId = async (req, res) => {
+const getExcavationByRoadSectionId = async (req, res) => {
   const db = req.params.db;
   const id = req.params.id;
   let sql = 'SELECT * FROM webgis.wms_aufbruch WHERE strasse_id = (select strasseid from webgis.wms_strassenabschnitt where id = $1) AND id > 0';
@@ -113,4 +113,4 @@ const getDeparturesByRoadSectionId = async (req, res) => {
   }
 }
 
-module.exports = { getRoadSections, getRoadSectionById, getControlsByRoadSectionId, getDeparturesByRoadSectionId };
+module.exports = { getRoadSections, getRoadSectionById, getControlsByRoadSectionId, getExcavationByRoadSectionId };
