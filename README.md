@@ -32,16 +32,29 @@ Backend REST API for WebGIS applications providing feature-linked PostgreSQL/Pos
   - `GET /{db}/road-section/:id/departure`  
     Returns all departures for a road section.
 
-## Example Requests
+
+## Sorting Results
+
+Many endpoints (e.g. `/road-section`, `/road-section/:id/control`, `/road-section/:id/departure`) support a `sortby` query parameter to sort the results by one or more columns.
+
+- Syntax: `?sortby=+column1,-column2`
+  - Use `+` (or no prefix) for ascending, `-` for descending order.
+  - Only whitelisted columns are allowed for sorting.
+
+### Example Requests
 
 - `GET /lohmar/road-section`  
   Returns all road sections from the `lohmar` database.
-- `GET /lohmar/road-section/1234`  
-  Returns the road section with ID 1234 from the `lohmar` database.
-- `GET /lohmar/road-section/1234/control`  
-  Returns all controls for road section 1234 from the `lohmar` database.
-- `GET /lohmar/road-section/1234/departure`  
-  Returns all departures for road section 1234 from the `lohmar` database.
+- `GET /lohmar/road-section/6803`  
+  Returns the road section with ID 6803 from the `lohmar` database.
+- `GET /lohmar/road-section/6803/control`  
+  Returns all controls for road section 6803 from the `lohmar` database.
+- `GET /lohmar/road-section/10692/departure`  
+  Returns all departures for road section 10692 from the `lohmar` database.
+  - `GET /lohmar/road-section?sortby=-id`
+  Returns all road sections from the `lohmar` database, absteigend nach `id` sortiert.
+- `GET /lohmar/road-section/6803/control?sortby=-naechstekontrolle`
+  Returns all controls for road section 6803, absteigend nach `naechstekontrolle` sortiert.
 
 ## Notes
 - The API connects to multiple PostgreSQL databases as configured in your `.env` file.
