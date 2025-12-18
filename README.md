@@ -3,10 +3,10 @@ Backend REST API for WebGIS applications providing feature-linked PostgreSQL/Pos
 
 ## Getting Started (Docker)
 
-1. Copy `.env.example` to `.env` and fill in your database credentials:
+1. Copy `db/config.example.js` to `db/config.js` and fill in your database credentials:
    ```sh
-   cp .env.example .env
-   # Edit .env as needed
+   cp db/config.example.js db/config.js
+   # Edit config.js as needed
    ```
 
 2. Build and start the API using Docker Compose:
@@ -57,5 +57,5 @@ Many endpoints (e.g. `/road-section`, `/road-section/:id/control`, `/road-sectio
   Returns all controls for road section 6803, absteigend nach `naechstekontrolle` sortiert.
 
 ## Notes
-- The API connects to multiple PostgreSQL databases as configured in your `.env` file.
+- The API connects to multiple PostgreSQL databases as configured in your `db/config.js` file.
 - Make sure your local PostgreSQL is accessible from Docker (use `host.docker.internal` as DB_HOST on Windows).
