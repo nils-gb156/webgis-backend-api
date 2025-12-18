@@ -26,6 +26,10 @@ app.use('/health', healthRouter);
 const roadSectionRouter = require('./routes/roadSection');
 app.use('/', roadSectionRouter);
 
+// Tree-Route einbinden
+const treeRouter = require('./routes/tree');
+app.use('/', treeRouter);
+
 app.listen(PORT, () => {
 	console.log(`Server running at http://localhost:${PORT}`);
 });
