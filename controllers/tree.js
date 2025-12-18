@@ -33,4 +33,24 @@ const getTrees = async (req, res) => {
   }
 };
 
-module.exports = { getTrees };
+const getTreeById = async (req, res) => {
+  const db = req.params.db;
+  const id = req.params.id;
+  let sql = 'SELECT * FROM webgis.wms_baum WHERE id = $1';
+  const pool = dbPools[db];
+  if (!pool) {
+    return res.status(400).json({ error: 'Unknown database' });
+  }
+
+  try {
+    const result = await pool.query(sql, [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Not found' });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+module.exports = { getTrees, getTreeById };
