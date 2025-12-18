@@ -1,33 +1,16 @@
 const { Pool } = require('pg');
 require('dotenv').config();
+const dbConfig = require('./config');
 
-const lohmar_pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB1_NAME
-});
+// Erzeuge für jede DB in der Konfiguration einen Pool und mappe sie nach Name
+const dbPools = {};
+for (const [name, config] of Object.entries(dbConfig)) {
+  const pool = new Pool(config);
+  pool.on('error', (err) => {
+    console.error(`Unexpected DB error in pool '${name}':`, err);
+    process.exit(-1);
+  });
+  dbPools[name] = pool;
+}
 
-const roetgen_pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB2_NAME
-});
-
-lohmar_pool.on('error', (err) => {
-  console.error('Unexpected Lohmar_DB error:', err);
-  process.exit(-1);
-});
-
-roetgen_pool.on('error', (err) => {
-  console.error('Unexpected Roetgen_DB error:', err);
-  process.exit(-1);
-});
-
-module.exports = {
-  lohmar_pool,
-  roetgen_pool
-};
+module.exports = dbPools;

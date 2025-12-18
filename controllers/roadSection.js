@@ -1,4 +1,4 @@
-const { lohmar_pool, roetgen_pool } = require('../db');
+const dbPools = require('../db');
 const { parseSortby } = require('../utils/sorting');
 
 // Whitelist of allowed columns to prevent SQL injection
@@ -6,14 +6,9 @@ const allowedColumns = ['id', 'gid', 'fid', 'fc', 'strasseid', 'strasse', 'lfdnr
 
 const getRoadSections = async (req, res) => {
   const db = req.params.db;
-  let pool;
   let sql = 'SELECT * FROM webgis.wms_strassenabschnitt';
-
-  if (db === 'lohmar') {
-    pool = lohmar_pool;
-  } else if (db === 'roetgen') {
-    pool = roetgen_pool;
-  } else {
+  const pool = dbPools[db];
+  if (!pool) {
     return res.status(400).json({ error: 'Unknown database' });
   }
 
@@ -41,14 +36,9 @@ const getRoadSections = async (req, res) => {
 const getRoadSectionById = async (req, res) => {
   const db = req.params.db;
   const id = req.params.id;
-  let pool;
   let sql = 'SELECT * FROM webgis.wms_strassenabschnitt WHERE id = $1';
-
-  if (db === 'lohmar') {
-    pool = lohmar_pool;
-  } else if (db === 'roetgen') {
-    pool = roetgen_pool;
-  } else {
+  const pool = dbPools[db];
+  if (!pool) {
     return res.status(400).json({ error: 'Unknown database' });
   }
 
@@ -66,14 +56,9 @@ const getRoadSectionById = async (req, res) => {
 const getControlsByRoadSectionId = async (req, res) => {
   const db = req.params.db;
   const id = req.params.id;
-  let pool;
   let sql = 'SELECT * FROM webgis.wms_kontrolle WHERE masterid = $1 AND masterclass = 9585 and id > 0';
-
-  if (db === 'lohmar') {
-    pool = lohmar_pool;
-  } else if (db === 'roetgen') {
-    pool = roetgen_pool;
-  } else {
+  const pool = dbPools[db];
+  if (!pool) {
     return res.status(400).json({ error: 'Unknown database' });
   }
 
@@ -101,14 +86,9 @@ const getControlsByRoadSectionId = async (req, res) => {
 const getDeparturesByRoadSectionId = async (req, res) => {
   const db = req.params.db;
   const id = req.params.id;
-  let pool;
   let sql = 'SELECT * FROM webgis.wms_aufbruch WHERE strasse_id = (select strasseid from webgis.wms_strassenabschnitt where id = $1) AND id > 0';
-  
-  if (db === 'lohmar') {
-    pool = lohmar_pool;
-  } else if (db === 'roetgen') {
-    pool = roetgen_pool;
-  } else {
+  const pool = dbPools[db];
+  if (!pool) {
     return res.status(400).json({ error: 'Unknown database' });
   }
 
