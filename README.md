@@ -22,6 +22,14 @@ Backend REST API for WebGIS applications providing feature-linked PostgreSQL/Pos
   - `GET /health`  
     Returns the connection status for all configured databases.
 
+- **Trees**
+  - `GET /{db}/tree`  
+    Returns all tree from the selected database.
+  - `GET /{db}/tree/:id`  
+    Returns a single tree by ID from the selected database.
+  - `GET /{db}/tree/:id/control`  
+    Returns all controls for a tree.
+
 - **Road Sections**
   - `GET /{db}/road-section`  
     Returns all road sections from the selected database.
