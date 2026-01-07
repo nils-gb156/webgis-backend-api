@@ -4,7 +4,7 @@ const { parseSortby } = require('../utils/sorting');
 // Whitelist of allowed columns to prevent SQL injection
 const allowedColumns = ['baumnr', 'baumnr_id', 'bemerkung', 'txtrotation', 'bezeichnungbot', 'bezeichnung', 'funktion', 'pflanzjahr', 'vital', 'kronendm_aktuell', 'hoehe_aktuell', 'umfang_aktuell', 'durchmesser_stamm', 'datumwachstum', 'strasse', 'gid', 'fid', 'id', 'fc', 'created', 'machine', 'owner', 'sequence', 'zeit', 'kontrolleur', 'status', 'datum', 'bemerkung', 'masterclass', 'masterid', 'wetter', 'typ', 'hauptkontrolle', 'naechstekontrolle'];
 
-const getTrees = async (req, res) => {
+const getBaeume = async (req, res) => {
   const db = req.params.db;
   let sql = 'SELECT * FROM webgis.wms_baum';
   const pool = dbPools[db];
@@ -33,7 +33,7 @@ const getTrees = async (req, res) => {
   }
 };
 
-const getTreeById = async (req, res) => {
+const getBaumById = async (req, res) => {
   const db = req.params.db;
   const id = req.params.id;
   let sql = 'SELECT * FROM webgis.wms_baum WHERE id = $1';
@@ -53,7 +53,7 @@ const getTreeById = async (req, res) => {
   }
 };
 
-const getControlsByTreeId = async (req, res) => {
+const getKontrollenByBaumId = async (req, res) => {
   const db = req.params.db;
   const id = req.params.id;
   let sql = 'SELECT * FROM webgis.wms_kontrolle WHERE masterid = $1 AND masterclass = 7346 and id > 0';
@@ -83,4 +83,4 @@ const getControlsByTreeId = async (req, res) => {
   }
 };
 
-module.exports = { getTrees, getTreeById, getControlsByTreeId };
+module.exports = { getBaeume, getBaumById, getKontrollenByBaumId };

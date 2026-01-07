@@ -24,13 +24,13 @@ app.use(express.static(__dirname));
 const healthRouter = require('./routes/health');
 app.use('/health', healthRouter);
 
-// RoadSection-Route einbinden
-const roadSectionRouter = require('./routes/roadSection');
-app.use('/', roadSectionRouter);
+// Strassenabschnitt-Route einbinden
+const strassenabschnittRouter = require('./routes/strassenabschnitt');
+app.use('/', strassenabschnittRouter);
 
-// Tree-Route einbinden
-const treeRouter = require('./routes/tree');
-app.use('/', treeRouter);
+// Baum-Route einbinden
+const baumRouter = require('./routes/baum');
+app.use('/', baumRouter);
 
 app.listen(PORT, () => {
 	console.log(`Server running at http://localhost:${PORT}`);

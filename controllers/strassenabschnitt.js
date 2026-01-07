@@ -4,7 +4,7 @@ const { parseSortby } = require('../utils/sorting');
 // Whitelist of allowed columns to prevent SQL injection
 const allowedColumns = ['id', 'gid', 'fid', 'fc', 'strasseid', 'strasse', 'lfdnr', 'baulasttraeger_id', 'baulasttraeger', 'bezeichnung', 'creadted', 'machine', 'owner', 'sequence', 'zeit', 'kontrolleur', 'status', 'datum', 'bemerkung', 'masterclass', 'masterid', 'wetter', 'typ', 'hauptkontrolle', 'naechstekontrolle', 'aufbruchnr', 'strasse_id', 'ortsneschreibung', 'beschreibung', 'datumabnahme', 'datumgewaehrleistung', 'datumwiedervorlage', 'bemerkungen', 'aufbruchdatum', 'trassenverlauf', 'gebuehr', 'gbbezahlt', 'bauweise', 'laenge', 'breite', 'beginn', 'ende', 'medium', 'auftraggeber', 'auftragnehmer', 'abnahmedurch', 'endkontrolledurch'];
 
-const getRoadSections = async (req, res) => {
+const getStrassenabschnitte = async (req, res) => {
   const db = req.params.db;
   let sql = 'SELECT * FROM webgis.wms_strassenabschnitt';
   const pool = dbPools[db];
@@ -33,7 +33,7 @@ const getRoadSections = async (req, res) => {
   }
 };
 
-const getRoadSectionByGid = async (req, res) => {
+const getStrassenabschnitteByGid = async (req, res) => {
   const db = req.params.db;
   const gid = req.params.gid;
   let sql = 'SELECT * FROM webgis.wms_strassenabschnitt WHERE gid = $1';
@@ -53,7 +53,7 @@ const getRoadSectionByGid = async (req, res) => {
   }
 };
 
-const getControlsByRoadSectionGid = async (req, res) => {
+const getKontrollenByStrassenabschnittGid = async (req, res) => {
   const db = req.params.db; 
   const gid = req.params.gid;
   let sql;
@@ -114,7 +114,7 @@ WHERE k.masterclass = 9585`;
   }
 };
 
-const getExcavationByRoadSectionGid = async (req, res) => {
+const getAufbruecheByStrassenabschnittGid = async (req, res) => {
   const db = req.params.db;
   const gid = req.params.gid;
   let sql = 'SELECT * FROM webgis.wms_aufbruch WHERE strasse_id = (select strasseid from webgis.wms_strassenabschnitt where gid = $1)';
@@ -144,4 +144,4 @@ const getExcavationByRoadSectionGid = async (req, res) => {
   }
 }
 
-module.exports = { getRoadSections, getRoadSectionByGid, getControlsByRoadSectionGid, getExcavationByRoadSectionGid };
+module.exports = { getStrassenabschnitte, getStrassenabschnitteByGid, getKontrollenByStrassenabschnittGid, getAufbruecheByStrassenabschnittGid };

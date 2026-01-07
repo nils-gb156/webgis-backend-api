@@ -22,47 +22,47 @@ Backend REST API for WebGIS applications providing feature-linked PostgreSQL/Pos
   - `GET /health`  
     Returns the connection status for all configured databases.
 
-- **Trees**
-  - `GET /{db}/tree`  
-    Returns all tree from the selected database.
-  - `GET /{db}/tree/:gid`  
-    Returns a single tree by GID from the selected database.
-  - `GET /{db}/tree/:gid/control`  
-    Returns all controls for a tree.
+- **Bäume**
+  - `GET /{db}/baum`  
+    Gibt alle Bäume aus der gewählten Datenbank zurück.
+  - `GET /{db}/baum/:gid`  
+    Gibt einen einzelnen Baum anhand der GID zurück.
+  - `GET /{db}/baum/:gid/kontrolle`  
+    Gibt alle Kontrollen zu einem Baum zurück.
 
-- **Road Sections**
-  - `GET /{db}/road-section`  
-    Returns all road sections from the selected database.
-  - `GET /{db}/road-section/:gid`  
-    Returns a single road section by GID from the selected database.
-  - `GET /{db}/road-section/:gid/control`  
-    Returns all controls for a road section.
-  - `GET /{db}/road-section/:gid/excavation`  
-    Returns all excavations for a road section.
+- **Straßenabschnitte**
+  - `GET /{db}/strassenabschnitt`  
+    Gibt alle Straßenabschnitte aus der gewählten Datenbank zurück.
+  - `GET /{db}/strassenabschnitt/:gid`  
+    Gibt einen einzelnen Straßenabschnitt anhand der GID zurück.
+  - `GET /{db}/strassenabschnitt/:gid/kontrolle`  
+    Gibt alle Kontrollen zu einem Straßenabschnitt zurück.
+  - `GET /{db}/strassenabschnitt/:gid/aufbruch`  
+    Gibt alle Aufbrüche zu einem Straßenabschnitt zurück.
 
 
 ## Sorting Results
 
-Many endpoints (e.g. `/tree`, `/tree/:gid/control`, `/road-section`, `/road-section/:gid/control`, `/road-section/:gid/excavation`) support a `sortby` query parameter to sort the results by one or more columns.
+Viele Endpunkte (z.B. `/baum`, `/baum/:gid/kontrolle`, `/strassenabschnitt`, `/strassenabschnitt/:gid/kontrolle`, `/strassenabschnitt/:gid/aufbruch`) unterstützen den Query-Parameter `sortby`, um die Ergebnisse nach einer oder mehreren Spalten zu sortieren.
 
-- Syntax: `?sortby=+column1,-column2`
-  - Use `+` (or no prefix) for ascending, `-` for descending order.
-  - Only whitelisted columns are allowed for sorting.
+- Syntax: `?sortby=+spalte1,-spalte2`
+  - `+` (oder kein Präfix) sortiert aufsteigend, `-` absteigend.
+  - Es können nur freigegebene (whitelisted) Spalten zum Sortieren verwendet werden.
 
 ### Example Requests
 
-- `GET /lohmar/road-section`  
-  Returns all road sections from the `lohmar` database.
-- `GET /lohmar/road-section/3120`  
-  Returns the road section with GID 3120 from the `lohmar` database.
-- `GET /lohmar/road-section/3120/control`  
-  Returns all controls for road section 3120 from the `lohmar` database.
-- `GET /lohmar/road-section/3120/excavation`  
-  Returns all excavations for road section 3120 from the `lohmar` database.
-  - `GET /lohmar/road-section?sortby=-gid`
-  Returns all road sections from the `lohmar` database, absteigend nach `gid` sortiert.
-- `GET /lohmar/road-section/3120/control?sortby=-naechstekontrolle`
-  Returns all controls for road section 3120, absteigend nach `naechstekontrolle` sortiert.
+- `GET /lohmar/strassenabschnitt`  
+  Gibt alle Straßenabschnitte aus der Datenbank `lohmar` zurück.
+- `GET /lohmar/strassenabschnitt/3120`  
+  Gibt den Straßenabschnitt mit GID 3120 aus der Datenbank `lohmar` zurück.
+- `GET /lohmar/strassenabschnitt/3120/kontrolle`  
+  Gibt alle Kontrollen für Straßenabschnitt 3120 aus der Datenbank `lohmar` zurück.
+- `GET /lohmar/strassenabschnitt/3120/aufbruch`  
+  Gibt alle Aufbrüche für Straßenabschnitt 3120 aus der Datenbank `lohmar` zurück.
+- `GET /lohmar/strassenabschnitt?sortby=-gid`
+  Gibt alle Straßenabschnitte aus der Datenbank `lohmar` zurück, absteigend nach `gid` sortiert.
+- `GET /lohmar/strassenabschnitt/3120/kontrolle?sortby=-naechstekontrolle`
+  Gibt alle Kontrollen für Straßenabschnitt 3120, absteigend nach `naechstekontrolle` sortiert.
 
 ## Notes
 - The API connects to multiple PostgreSQL databases as configured in your `db/config.js` file.
