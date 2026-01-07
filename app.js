@@ -1,10 +1,12 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const app = express();
 const fs = require('fs');
 const marked = require('marked');
 
 const PORT = 3000;
+app.use(cors());
 
 // Dynamische README-HTML-Route direkt auf /
 app.get('/', (req, res) => {
