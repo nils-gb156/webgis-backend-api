@@ -82,8 +82,8 @@ SELECT
 FROM base_abschnitt b
 JOIN webgis.wms_kontrolle k
   ON k.masterid IN (SELECT id FROM alle_abschnitte)
-WHERE k.masterclass = 9585;
-`;
+WHERE k.masterclass = 9585`;
+
   } else {
     sql = 'SELECT * FROM webgis.wms_kontrolle WHERE masterid = (SELECT id from webgis.wms_strassenabschnitt where gid = $1 LIMIT 1) AND masterclass = 9585 and id > 0';
   }
