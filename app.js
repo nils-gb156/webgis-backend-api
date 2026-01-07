@@ -3,15 +3,16 @@ const path = require('path');
 const cors = require('cors');
 const app = express();
 const fs = require('fs');
-const marked = require('marked');
+
 
 const PORT = 3000;
 app.use(cors());
 
 // Dynamische README-HTML-Route direkt auf /
-app.get('/', (req, res) => {
-	fs.readFile(path.join(__dirname, 'README.md'), 'utf8', (err, data) => {
+app.get('/', async (req, res) => {
+	fs.readFile(path.join(__dirname, 'README.md'), 'utf8', async (err, data) => {
 		if (err) return res.status(500).send('README not found');
+		const marked = await import('marked').then(mod => mod.default || mod);
 		const html = marked.parse(data);
 		res.send(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>README</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"></head><body class="bg-light"><div class="container py-5">${html}</div></body></html>`);
 	});
