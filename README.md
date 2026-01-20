@@ -14,7 +14,7 @@ Backend REST API for WebGIS applications providing feature-linked PostgreSQL/Pos
    docker-compose up -d
    ```
 
-3. The API will be available at [http://localhost:3000](http://localhost:3000)
+3. The API will be available at [http://localhost:4431](http://localhost:4431)
 
 ## API Endpoints
 

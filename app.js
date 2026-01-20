@@ -5,7 +5,7 @@ const app = express();
 const fs = require('fs');
 
 
-const PORT = 3000;
+const PORT = 4431;
 app.use(cors());
 
 // Dynamische README-HTML-Route direkt auf /

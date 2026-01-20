@@ -3,7 +3,7 @@ services:
     container_name: webgis-api
     build: .
     ports:
-      - "3000:3000"
+      - "4431:4431"
     environment:
       - NODE_ENV=development
     volumes:
