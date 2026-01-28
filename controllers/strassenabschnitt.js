@@ -56,11 +56,7 @@ const getStrassenabschnitteByGid = async (req, res) => {
 const getKontrollenByStrassenabschnittGid = async (req, res) => {
   const db = req.params.db; 
   const gid = req.params.gid;
-  let sql;
-  
-  // Special handling for 'lohmar' database
-  if (db === 'lohmar') {
-    sql = `
+  let sql = `
 WITH base_abschnitt AS (
     -- der Abschnitt, für den wir die Straße ermitteln
     SELECT sa.fid, sa.strasseid, sa.the_geom
@@ -83,10 +79,6 @@ FROM base_abschnitt b
 JOIN webgis.wms_kontrolle k
   ON k.masterid IN (SELECT id FROM alle_abschnitte)
 WHERE k.masterclass = 9585`;
-
-  } else {
-    sql = 'SELECT * FROM webgis.wms_kontrolle WHERE masterid = (SELECT id from webgis.wms_strassenabschnitt where gid = $1 LIMIT 1) AND masterclass = 9585 and id > 0';
-  }
 
   const pool = dbPools[db];
   if (!pool) {
@@ -117,7 +109,23 @@ WHERE k.masterclass = 9585`;
 const getAufbruecheByStrassenabschnittGid = async (req, res) => {
   const db = req.params.db;
   const gid = req.params.gid;
-  let sql = 'SELECT * FROM webgis.wms_aufbruch WHERE strasse_id = (select strasseid from webgis.wms_strassenabschnitt where gid = $1)';
+  let sql = `WITH base_abschnitt AS (
+    SELECT 
+        sa.gid,
+        sa.strasseid,
+        sa.the_geom
+    FROM webgis.wms_strassenabschnitt sa
+    WHERE sa.gid = $1
+)
+SELECT
+    b.gid,
+    b.the_geom,
+    auf.*
+FROM base_abschnitt b
+JOIN gm_str_abschnitt a
+  ON a.strasseid = b.strasseid
+JOIN webgis.wms_aufbruch auf
+  ON auf.strasse_id = a.id;`;
   const pool = dbPools[db];
   if (!pool) {
     return res.status(400).json({ error: 'Unknown database' });
