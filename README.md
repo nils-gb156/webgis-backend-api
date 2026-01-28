@@ -14,7 +14,7 @@ Backend REST API for WebGIS applications providing feature-linked PostgreSQL/Pos
    docker-compose up -d
    ```
 
-3. The API will be available at [http://localhost:4431](http://localhost:4431)
+3. The API will be available at [http://localhost:4430/webgis-backend-api](http://localhost:4430/webgis-backend-api)
 
 ## API Endpoints
 
@@ -51,17 +51,17 @@ Viele Endpunkte (z.B. `/baum`, `/baum/:gid/kontrolle`, `/strassenabschnitt`, `/s
 
 ### Example Requests
 
-- `GET /lohmar/strassenabschnitt`  
+- `GET /webgis-backend-api/lohmar/strassenabschnitt`  
   Gibt alle Straßenabschnitte aus der Datenbank `lohmar` zurück.
-- `GET /lohmar/strassenabschnitt/3120`  
+- `GET /webgis-backend-api/lohmar/strassenabschnitt/3120`  
   Gibt den Straßenabschnitt mit GID 3120 aus der Datenbank `lohmar` zurück.
-- `GET /lohmar/strassenabschnitt/3120/kontrolle`  
+- `GET /webgis-backend-api/lohmar/strassenabschnitt/3120/kontrolle`  
   Gibt alle Kontrollen für Straßenabschnitt 3120 aus der Datenbank `lohmar` zurück.
-- `GET /lohmar/strassenabschnitt/3120/aufbruch`  
+- `GET /webgis-backend-api/lohmar/strassenabschnitt/3120/aufbruch`  
   Gibt alle Aufbrüche für Straßenabschnitt 3120 aus der Datenbank `lohmar` zurück.
-- `GET /lohmar/strassenabschnitt?sortby=-gid`
+- `GET /webgis-backend-api/lohmar/strassenabschnitt?sortby=-gid`
   Gibt alle Straßenabschnitte aus der Datenbank `lohmar` zurück, absteigend nach `gid` sortiert.
-- `GET /lohmar/strassenabschnitt/3120/kontrolle?sortby=-naechstekontrolle`
+- `GET /webgis-backend-api/lohmar/strassenabschnitt/3120/kontrolle?sortby=-naechstekontrolle`
   Gibt alle Kontrollen für Straßenabschnitt 3120, absteigend nach `naechstekontrolle` sortiert.
 
 ## Notes

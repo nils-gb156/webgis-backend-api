@@ -5,11 +5,11 @@ const app = express();
 const fs = require('fs');
 
 
-const PORT = 4431;
+const PORT = process.env.PORT || 4430;
 app.use(cors());
 
 // Dynamische README-HTML-Route direkt auf /
-app.get('/', async (req, res) => {
+app.get('/webgis-backend-api/', async (req, res) => {
 	fs.readFile(path.join(__dirname, 'README.md'), 'utf8', async (err, data) => {
 		if (err) return res.status(500).send('README not found');
 		const marked = await import('marked').then(mod => mod.default || mod);
@@ -23,15 +23,15 @@ app.use(express.static(__dirname));
 
 // Health-Route einbinden
 const healthRouter = require('./routes/health');
-app.use('/health', healthRouter);
+app.use('/webgis-backend-api/health', healthRouter);
 
 // Strassenabschnitt-Route einbinden
 const strassenabschnittRouter = require('./routes/strassenabschnitt');
-app.use('/', strassenabschnittRouter);
+app.use('/webgis-backend-api/', strassenabschnittRouter);
 
 // Baum-Route einbinden
 const baumRouter = require('./routes/baum');
-app.use('/', baumRouter);
+app.use('/webgis-backend-api/', baumRouter);
 
 app.listen(PORT, () => {
 	console.log(`Server running at http://localhost:${PORT}`);
