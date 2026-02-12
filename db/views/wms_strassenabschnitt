@@ -1,0 +1,26 @@
+-- View: webgis.wms_strassenabschnitt
+
+-- DROP VIEW webgis.wms_strassenabschnitt;
+
+CREATE OR REPLACE VIEW webgis.wms_strassenabschnitt
+ AS
+ SELECT a.gid,
+    a.fid,
+    a.fc,
+    a.the_geom,
+    b.id,
+    b.strasseid,
+    c.bezeichnung AS strasse,
+    b.lfdnr,
+    b.baulasttraeger_id,
+    (d.anrede::text || ' '::text) || d.nachname::text AS baulasttraeger,
+    b.bezeichnung
+   FROM gm_str_abschnitt_geo a
+     LEFT JOIN gm_str_abschnitt b ON a.fid = b.id
+     LEFT JOIN gm_std_strasse c ON c.id = b.strasseid
+     LEFT JOIN gm_std_person d ON d.id = b.baulasttraeger_id
+  WHERE a.gid > 0;
+
+ALTER TABLE webgis.wms_strassenabschnitt
+    OWNER TO postgres;
+
