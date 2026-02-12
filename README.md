@@ -16,6 +16,19 @@ Backend REST API for WebGIS applications providing feature-linked PostgreSQL/Pos
 
 3. The API will be available at [http://localhost:4430/webgis-backend-api](http://localhost:4430/webgis-backend-api)
 
+## IIS Deployment
+
+- Kopiere das Projektverzeichnis auf den Webserver nach `C:\inetpub\wwwroot\webgis-backend-api\`
+- (Nur beim ersten Mal) Setze Vollzugriff für `IIS_IUSRS` auf den Ordner `C:\inetpub\wwwroot\webgis-backend-api\`
+- Passe in der `web.config` den Node.js-Pfad an, z.B. zu `C:\Program Files\nodejs\node.exe`
+- **Für iisnode-Betrieb:**
+  - Installiere das [URL Rewrite Module](https://www.iis.net/downloads/microsoft/url-rewrite) und [iisnode](https://github.com/Azure/iisnode/releases) auf dem Server.
+  - Kontrolliere, dass `nodeProcessCommandLine` in der `web.config` auf den Node.js-Pfad des Zielservers zeigt.
+  - Setze im IIS Application Pool die .NET CLR-Version auf **No Managed Code**.
+  - Aktiviere die **anonyme Authentifizierung** für die Website.
+  - Erlaube den gewünschten Port (z.B. 4430) in der Windows-Firewall **und** ggf. in der Anbieter-Firewall/Sicherheitsgruppe.
+  - Lege im IIS ein HTTPS-Binding mit Zertifikat und gewünschtem Port an (z.B. 4430, Hostname optional).
+
 ## API Endpoints
 
 - **Health Check**
@@ -67,3 +80,6 @@ Viele Endpunkte (z.B. `/baum`, `/baum/:gid/kontrolle`, `/strassenabschnitt`, `/s
 ## Notes
 - The API connects to multiple PostgreSQL databases as configured in your `db/config.js` file.
 - Make sure your local PostgreSQL is accessible from Docker (use `host.docker.internal` as DB_HOST on Windows).
+
+
+
