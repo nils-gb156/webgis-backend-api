@@ -1,8 +1,8 @@
--- View: webgis.wms_schaden
+-- View: webgis.wms_strassenschaden
 
--- DROP VIEW webgis.wms_schaden;
+-- DROP VIEW webgis.wms_strassenschaden;
 
-CREATE OR REPLACE VIEW webgis.wms_schaden
+CREATE OR REPLACE VIEW webgis.wms_strassenschaden
  AS
  SELECT gm_ih_schaden_geo.gid,
     gm_ih_schaden_geo.fc,
@@ -26,8 +26,8 @@ CREATE OR REPLACE VIEW webgis.wms_schaden
    FROM gm_ih_schaden_geo
      JOIN gm_ih_schaden ON gm_ih_schaden.id = gm_ih_schaden_geo.fid
      JOIN gm_ih_cat_schaeden ON gm_ih_cat_schaeden.id = gm_ih_schaden.childid
-  WHERE gm_ih_schaden.id > 0 AND gm_ih_schaden_geo.gid > 0;
+  WHERE gm_ih_schaden.id > 0 AND gm_ih_schaden_geo.gid > 0 AND gm_ih_schaden.masterclass = 9585;
 
-ALTER TABLE webgis.wms_schaden
+ALTER TABLE webgis.wms_strassenschaden
     OWNER TO postgres;
 
