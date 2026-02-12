@@ -126,6 +126,7 @@ JOIN gm_str_abschnitt a
   ON a.strasseid = b.strasseid
 JOIN webgis.wms_aufbruch auf
   ON auf.strasse_id = a.id;`;
+  
   const pool = dbPools[db];
   if (!pool) {
     return res.status(400).json({ error: 'Unknown database' });
